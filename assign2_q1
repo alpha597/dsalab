@@ -27,7 +27,7 @@ struct node *create_list(struct node *start)
                 start=addatend(start,data);
         }
         return start;
-}/*End of create_list()*/
+}
 
 void display(struct node *start)
 {
@@ -45,7 +45,7 @@ void display(struct node *start)
                 p=p->link;
         }
         printf("\n\n");
-}/*End of display() */
+}
 
 void count(struct node *start)
 {
@@ -58,7 +58,7 @@ void count(struct node *start)
                 cnt++;
         }
         printf("Number of elements are %d\n",cnt);
-}/*End of count() */
+}
 
 void search(struct node *start,int item)
 {
@@ -75,7 +75,7 @@ void search(struct node *start,int item)
                 pos++;
         }
         printf("Item %d not found in list\n",item);
-}/*End of search()*/
+}
 
 struct node *addatbeg(struct node *start,int data)
 {
