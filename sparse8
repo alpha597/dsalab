@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include  <stdio.h>
+#include<stdlib.h>
+
+typedef struct element{
+  int row,col,value;
+}element;
+typedef struct sparsemat{
+  int no_of_nonzero_elements;
+  int row,col;
+  element a[100];
+}sparsemat;
+
+void inputSparseMatrix(sparsemat *matrix){
+  printf("Enter the number of rows:");
+  scanf("%d",&matrix->row);
+  printf("Enter the number of columns:");
+  scanf("%d",&matrix->col);
+  printf("Enter the number of nonzero elements:");
+  scanf("%d",&matrix->no_of_nonzero_elements);
+  printf("Enter the non-zero elements(row,column,value):\n");
+  int i;
+  for(i=0;i<matrix->no_of_nonzero_elements;++i){
+    scanf("%d %d %d",&matrix->a[i].row,&matrix->a[i].col,&matrix->a[i].value);
+  }
+}
+void countNonZeroElements(sparsemat matrix,int* nonZeroCount){
+  int i;
+  for(i=0;i<matrix.row;++i){
+    nonZeroCount[i]=0;
+  }
+  for(i=0;i<matrix.no_of_nonzero_elements;++i){
+    int row=matrix.a[i].row;
+    nonZeroCount[row]++;
+  }
+}
+void printNonZeroCount(int* nonZeroCount,int row){
+  printf("Number of non zero elements in each row:\n");
+  int i;
+  for(i=0; i<row;++i){
+    printf("Row%d : %d non-zeroelements\n",i,nonZeroCount[i]);
+  }
+}
+int main(){
+  sparsemat matrix;
+  inputSparseMatrix(&matrix);
+  int nonZeroCount[matrix.row];
+  countNonZeroElements(matrix,nonZeroCount);
+  printNonZeroCount(nonZeroCount,matrix.row);
+  return 0;
+}
