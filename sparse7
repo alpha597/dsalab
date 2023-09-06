@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include<stdlib.h>
+typedef struct element{
+  int row,col,value;
+}element;
+
+typedef struct sparsemat{
+  int no_of_nonzero_elements;
+  int row,col;
+  element a[100];
+}sparsemat;
+
+void inputSparseMatrix(sparsemat *matrix){
+  printf("Enter the number of rows: ");
+  scanf("%d",&matrix->row);
+  printf("Enter the number of columns: ");
+  scanf("%d",&matrix->col);
+  printf("Enter the number of nonzero elements: ");
+  scanf("%d",&matrix->no_of_nonzero_elements);
+  printf("Enter the non-zero elements (row,column,value):\n");
+  int i;
+  for(i=0;i<matrix->no_of_nonzero_elements;++i){
+    scanf("%d%d%d",&matrix->a[i].row,&matrix->a[i].col,&matrix->a[i].value);
+  }
+}
+void addSparseMatrices(sparsemat matrix1, sparsemat matrix2, sparsemat*result){
+  if(matrix1.row!=matrix2.row||matrix1.col!=matrix2.col){
+    printf("Addition not possible.\n");
+  return;
+  }
+  result->row=matrix1.row;
+  result->col=matrix1.col;
+  int i=0,j=0,k=0;
+ while(i<matrix1.no_of_nonzero_elements && j<matrix2.no_of_nonzero_elements){
+    if(matrix1.a[i].row<matrix2.a[j].row || (matrix1.a[i].row==matrix2.a[j].row && matrix1.a[i].col<matrix2.a[j].col)){
+      result->a[k]=matrix1.a[i];
+      i++;
+  }
+  else if(matrix1.a[i].row==matrix2.a[j].row && matrix1.a[i].col==matrix2.a[j].col){
+    result->a[k]=matrix1.a[i];
+    result->a[k].value+=matrix2.a[j].value;
+    i++;
+    j++;
+  }
+  else{
+    result->a[k]=matrix2.a[j];
+    j++;
+  }
+  k++;
+ }
+  while(i<matrix1.no_of_nonzero_elements){
+    result->a[k]=matrix1.a[i];
+    i++;
+    k++;
+  }
+  while (j<matrix2.no_of_nonzero_elements){
+    result->a[k]=matrix2.a[j];
+    j++;
+    k++;
+  }
+  result->no_of_nonzero_elements=k;
+}
+void printSparseMatrix(sparsemat matrix){
+  printf("Sparse Matrix (row,col,value):\n");
+ int i;
+ for(i=0;i<matrix.no_of_nonzero_elements;++i){
+    printf("(%d,%d,%d)\n",matrix.a[i].row,matrix.a[i].col,matrix.a[i].value);
+  }
+}
+int main(){
+  sparsemat matrix1,matrix2,result;
+  printf("Enter details for first matrix:\n");
+  inputSparseMatrix(&matrix1);
+  printf("Enter details for second matrix:\n");
+  inputSparseMatrix(&matrix2);
+  addSparseMatrices(matrix1,matrix2,&result);
+  printf("Resultant matrix:\n");
+  printSparseMatrix(result);
+  return 0;
+}
